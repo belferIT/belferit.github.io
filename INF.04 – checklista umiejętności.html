@@ -72,6 +72,10 @@ li .txt em{display:block;font-style:normal;font-size:13px;color:var(--muted)}
 .modal .row{display:flex;gap:8px;justify-content:flex-end}
 .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
 .btn.danger{color:var(--no);border-color:var(--no)}
+.countdown{display:flex;align-items:center;gap:16px;margin:18px 0 0;padding:16px 18px;border-radius:var(--radius);background:var(--accent);color:#fff}
+.countdown .num{font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.countdown .lbl{font-size:15px;opacity:.95}
+.countdown .lbl b{display:block;font-size:17px}
 footer{margin-top:30px;font-size:13px;color:var(--muted)}
 footer a{color:var(--accent)}
 @media (max-width:560px){ li{flex-direction:column;align-items:flex-start} .sec-bar{width:60px} }
@@ -84,9 +88,15 @@ footer a{color:var(--accent)}
   <p>Projektowanie, programowanie i testowanie aplikacji · technik programista. Oceń szczerze każdą umiejętność – zobaczysz, co trzeba powtórzyć.</p>
 </header>
 
+<div class="countdown" id="countdown">
+  <div class="num" id="cdNum">–</div>
+  <div class="lbl"><b id="cdTxt">dni do egzaminu</b>Egzamin INF.04: 11 stycznia 2027 (poniedziałek)</div>
+</div>
+
 <div class="info">
   <div><b>Część pisemna</b>40 pytań testowych, 60 min. Zdajesz od 50%.</div>
   <div><b>Część praktyczna</b>Zadanie przy komputerze, 180 min. Zdajesz od 75%.</div>
+  <div><b>Technologie</b>C# (konsola), .NET MAUI (desktop i mobile), React (web)</div>
   <div><b>Jak oceniać?</b>❌ nie umiem · ⚠️ częściowo / z pomocą · ✅ umiem samodzielnie</div>
 </div>
 
@@ -106,12 +116,11 @@ footer a{color:var(--accent)}
   <div class="tools">
     <button class="btn" id="expand">Rozwiń wszystko</button>
     <button class="btn" id="collapse">Zwiń wszystko</button>
-    <button class="btn primary" id="summary">📋 Podsumowanie dla nauczyciela</button>
     <button class="btn danger" id="reset">Wyczyść oceny</button>
   </div>
 </div>
 
-<p class="legend">Twoje oceny zapisują się w tej przeglądarce. Na innym komputerze (np. w pracowni) zaczniesz od nowa – dlatego skopiuj podsumowanie, jeśli chcesz je zachować lub wysłać nauczycielowi.</p>
+<p class="legend">Twoje oceny zapisują się w tej przeglądarce. Na innym komputerze (np. w pracowni) zaczniesz od nowa.</p>
 
 <div id="list"></div>
 
@@ -131,13 +140,13 @@ const DATA = [
  {id:"prak", title:"Część praktyczna – to musisz umieć na egzaminie", sub:"Typowy arkusz: aplikacja konsolowa + desktopowa/mobilna lub webowa, testy i dokumentacja", tag:"praktyka", items:[
   ["Czytam polecenie ze zrozumieniem i planuję czas na 180 minut","najpierw wszystkie wymagania, potem kod"],
   ["Tworzę projekt w IDE i zapisuję go w folderze nazwanym zgodnie z poleceniem (numer zdającego)"],
-  ["Piszę aplikację konsolową realizującą algorytm z treści (np. sortowanie, liczby pierwsze, NWD, szyfr Cezara, losowanie)"],
+  ["Piszę aplikację konsolową w C# realizującą algorytm z treści (np. sortowanie, liczby pierwsze, NWD, szyfr Cezara, losowanie)"],
   ["Tworzę klasę według specyfikacji: pola, konstruktor, metody, modyfikatory dostępu"],
-  ["Buduję aplikację desktopową z formularzem (np. WPF/WinForms/Qt) według zrzutu ekranu w arkuszu"],
-  ["Buduję aplikację mobilną (Android Studio / .NET MAUI / React Native) według makiety"],
-  ["Buduję prostą aplikację webową we frameworku (React / Angular / Vue) – komponent, stan, obsługa zdarzeń"],
+  ["Buduję aplikację w .NET MAUI (desktop lub mobile) według zrzutu ekranu w arkuszu"],
+  ["Projektuję widok MAUI w XAML i łączę go z kodem C# (code-behind)"],
+  ["Buduję aplikację webową w React – komponenty, stan (useState), obsługa zdarzeń"],
   ["Obsługuję zdarzenia: kliknięcie przycisku, zmiana pola tekstowego, wybór z listy, checkbox/radio"],
-  ["Waliduję dane wejściowe i wyświetlam komunikaty (np. okno dialogowe, alert, etykieta)"],
+  ["Waliduję dane wejściowe i wyświetlam komunikaty (DisplayAlert w MAUI, komunikat w React, etykieta)"],
   ["Stosuję wymagane nazewnictwo zmiennych, klas i kontrolek z polecenia"],
   ["Piszę komentarz-nagłówek metody/klasy w wymaganym formacie (nazwa, opis, parametry, zwracany typ, autor)"],
   ["Testuję aplikację dla podanych danych i wykonuję zrzuty ekranu zgodnie z instrukcją"],
@@ -186,51 +195,52 @@ const DATA = [
  ]},
  {id:"obj", title:"4. Programowanie (w tym obiektowe)", items:[
   ["Kompiluję i uruchamiam program; rozumiem różnicę kompilator vs interpreter"],
-  ["Używam debuggera: pułapki (breakpointy), praca krokowa, podgląd zmiennych"],
+  ["Używam debuggera w Visual Studio: pułapki (breakpointy), praca krokowa, podgląd zmiennych"],
   ["Stosuję operatory i znam ich priorytety (arytmetyczne, logiczne, relacyjne, bitowe)"],
   ["Stosuję instrukcje warunkowe (if, switch) i pętle (for, while, do-while, foreach)"],
   ["Dzielę program na funkcje/metody z parametrami i wartością zwracaną"],
   ["Piszę funkcje rekurencyjne (np. silnia, Fibonacci, NWD)"],
-  ["Rozumiem przekazywanie parametrów przez wartość i przez referencję"],
-  ["Korzystam z bibliotek standardowych (napisy, matematyka, kolekcje, losowanie)"],
+  ["Rozumiem przekazywanie parametrów przez wartość i przez referencję (ref, out)"],
+  ["Korzystam z biblioteki .NET: string, Math, List, Dictionary, Random, podstawy LINQ"],
   ["Wyjaśniam pojęcia: klasa, obiekt, hermetyzacja, dziedziczenie, polimorfizm"],
-  ["Definiuję klasy z polami, metodami, konstruktorami i destruktorem"],
-  ["Stosuję modyfikatory dostępu: public, private, protected"],
+  ["Definiuję klasy z polami, właściwościami (get/set), metodami i konstruktorami; wiem, czym jest destruktor (finalizator)"],
+  ["Stosuję modyfikatory dostępu: public, private, protected, internal"],
   ["Stosuję składowe statyczne"],
-  ["Rozumiem funkcje i klasy zaprzyjaźnione (friend w C++)"],
+  ["Wiem, czym są funkcje i klasy zaprzyjaźnione (friend w C++)","pytanie teoretyczne – w C# ich nie ma"],
   ["Tworzę klasy pochodne i hierarchię dziedziczenia"],
-  ["Stosuję metody wirtualne, nadpisywanie (override) i klasy abstrakcyjne"],
-  ["Programuję szablony klas / klasy generyczne"],
+  ["Stosuję metody wirtualne (virtual/override), klasy abstrakcyjne i interfejsy"],
+  ["Programuję klasy generyczne w C# (własna klasa&lt;T&gt;, List&lt;T&gt;)"],
   ["Obsługuję wyjątki: try, catch, throw (finally)"]
  ]},
- {id:"desk", title:"5. Aplikacje desktopowe", items:[
-  ["Dobieram środowisko i tworzę projekt aplikacji okienkowej (np. Visual Studio, Qt Creator)"],
-  ["Wiem, czym jest framework i RAD; znam przykłady (WPF, WinForms, Qt)"],
-  ["Projektuję interfejs: etykiety, pola tekstowe, przyciski, listy, pola wyboru, obrazy"],
-  ["Rozmieszczam kontrolki (np. Grid, StackPanel w XAML, layouty w Qt)"],
-  ["Obsługuję zdarzenia myszy i klawiatury"],
-  ["Tworzę okna dialogowe modalne i niemodalne (np. MessageBox)"],
-  ["Tworzę menu i kilka okien aplikacji"]
+ {id:"desk", title:"5. Aplikacje desktopowe (.NET MAUI)", items:[
+  ["Tworzę projekt .NET MAUI w Visual Studio i uruchamiam go jako aplikację Windows"],
+  ["Wiem, czym jest framework i RAD; znam przykłady (.NET MAUI, WPF, WinForms, Qt)"],
+  ["Projektuję interfejs w XAML: Label, Entry, Button, Picker, CheckBox, RadioButton, Slider, Image"],
+  ["Rozmieszczam kontrolki: Grid, VerticalStackLayout, HorizontalStackLayout, marginesy"],
+  ["Obsługuję zdarzenia (Clicked, TextChanged, CheckedChanged) w code-behind"],
+  ["Wyświetlam okna dialogowe (DisplayAlert, DisplayPromptAsync); rozróżniam okna modalne i niemodalne"],
+  ["Tworzę kilka stron i nawiguję między nimi (Navigation.PushAsync, Shell)"],
+  ["Wyświetlam listę danych (CollectionView) i stosuję wiązanie danych (Binding)"]
  ]},
- {id:"mob", title:"6. Aplikacje mobilne", items:[
-  ["Tworzę projekt w środowisku mobilnym (Android Studio, Visual Studio / .NET MAUI, Expo/React Native)"],
-  ["Uruchamiam aplikację w emulatorze lub na urządzeniu"],
-  ["Projektuję widok: TextView/EditText/Button, layouty (np. ConstraintLayout, LinearLayout) lub XAML"],
-  ["Obsługuję zdarzenia (np. onClick) i odczytuję dane od użytkownika"],
-  ["Przechodzę między ekranami / aktywnościami"],
-  ["Zapisuję dane użytkownika i łączę się z internetem lub bazą danych"],
+ {id:"mob", title:"6. Aplikacje mobilne (.NET MAUI)", items:[
+  ["Uruchamiam projekt MAUI na Androidzie (emulator w Visual Studio lub telefon)"],
+  ["Dostosowuję wygląd do ekranu telefonu i różnych platform (np. OnPlatform)"],
+  ["Projektuję widok mobilny w XAML z kontrolek MAUI"],
+  ["Obsługuję zdarzenia i odczytuję dane od użytkownika (Entry, Picker, Switch)"],
+  ["Przechodzę między stronami aplikacji"],
+  ["Zapisuję dane użytkownika (Preferences, plik, SQLite) i pobieram dane z internetu (HttpClient)"],
   ["Wiem, jak przygotować aplikację do publikacji w sklepie (Google Play / App Store)"]
  ]},
- {id:"web", title:"7. Zaawansowane aplikacje webowe", items:[
-  ["Dobieram środowisko i narzędzia (VS Code, Node.js, npm)"],
-  ["Tworzę projekt we frameworku (React / Angular / Vue / ASP.NET Core / Django)"],
-  ["Tworzę komponenty i przekazuję dane (props / @Input)"],
-  ["Zarządzam stanem komponentu (np. useState) i obsługuję zdarzenia"],
-  ["Wyświetlam listę danych z tablicy (map / *ngFor) i formatuję ją"],
-  ["Tworzę dynamiczny formularz z walidacją"],
+ {id:"web", title:"7. Aplikacje webowe (React)", items:[
+  ["Tworzę i uruchamiam projekt React (Node.js, npm, Vite, VS Code)"],
+  ["Znam przykłady frameworków webowych (React, Angular, ASP.NET Core, Django, Node.js)","teoria do części pisemnej"],
+  ["Tworzę komponenty funkcyjne w JSX i przekazuję dane przez props"],
+  ["Zarządzam stanem (useState) i obsługuję zdarzenia (onClick, onChange, onSubmit)"],
+  ["Wyświetlam listę z tablicy przez map() z atrybutem key"],
+  ["Tworzę formularz kontrolowany (value + onChange) z walidacją"],
   ["Stosuję Bootstrap lub inny framework CSS do wyglądu"],
   ["Rozumiem sesje i ciasteczka; wiem, jak działa logowanie i kontrola dostępu"],
-  ["Łączę aplikację z bazą danych / API (fetch, JSON)"],
+  ["Pobieram dane z API (fetch, JSON) w useEffect"],
   ["Rozumiem funkcje typowych serwisów: e-sklep, portal, ogłoszenia, rezerwacje"]
  ]},
  {id:"test", title:"8. Testowanie i dokumentowanie", items:[
@@ -239,9 +249,9 @@ const DATA = [
   ["Rozróżniam testy jednostkowe, integracyjne, systemowe i akceptacyjne"],
   ["Znam testy białej i czarnej skrzynki"],
   ["Piszę scenariusz testu i przypadki testowe (dane wejściowe → oczekiwany wynik)"],
-  ["Piszę prosty test jednostkowy (np. xUnit/NUnit/JUnit/Jest)"],
+  ["Piszę prosty test jednostkowy (MSTest / xUnit / NUnit w C#)"],
   ["Raportuję błąd: opis, kroki do odtworzenia, wynik oczekiwany vs rzeczywisty"],
-  ["Komentuję kod i tworzę dokumentację (np. komentarze dokumentujące, Doxygen, JSDoc)"],
+  ["Komentuję kod i tworzę dokumentację (komentarze XML /// w C#, JSDoc w React)"],
   ["Tworzę instrukcję użytkownika i dokumentację wdrożenia"],
   ["Optymalizuję kod (czytelność, wydajność, usuwanie powtórzeń)"]
  ]},
@@ -330,7 +340,7 @@ function openModal(title,bodyEl,buttons){
 const close=()=>modal.classList.add("hidden");
 modal.onclick=e=>{ if(e.target===modal) close(); };
 
-document.getElementById("summary").onclick=()=>{
+const _unusedSummary=()=>{
   const items=allItems(); const y=items.filter(i=>state[i.k]==="yes").length;
   let txt=`INF.04 – samoocena (${new Date().toLocaleDateString("pl-PL")})\nImię i nazwisko: ____________\nOpanowane: ${y}/${items.length} (${Math.round(y/items.length*100)}%)\n`;
   DATA.forEach(s=>{
@@ -353,6 +363,15 @@ document.getElementById("reset").onclick=()=>{
   const p=document.createElement("p"); p.style.margin="0"; p.textContent="Czy na pewno usunąć wszystkie Twoje oceny? Tej operacji nie można cofnąć.";
   openModal("Wyczyść oceny",p,[["Anuluj","",close],["Wyczyść","danger",()=>{ state={}; save(); update(); close(); }]]);
 };
+(function(){
+  const exam=new Date(2027,0,11); const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const d=Math.round((exam-today)/86400000);
+  const num=document.getElementById("cdNum"), txt=document.getElementById("cdTxt");
+  const form=n=>{ if(n===1) return "dzień"; return "dni"; };
+  if(d>0){ num.textContent=d; txt.textContent=(d===1?"został ":"zostało ")+form(d)+" do egzaminu"; }
+  else if(d===0){ num.textContent="🍀"; txt.textContent="Egzamin jest dzisiaj – powodzenia!"; }
+  else { num.textContent="✓"; txt.textContent="Egzamin już się odbył"; }
+})();
 render();
 </script>
 </body>
