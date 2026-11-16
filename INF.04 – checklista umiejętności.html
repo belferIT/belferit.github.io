@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.04 – checklista umiejętności</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#1b1f24; --muted:#5d6672; --line:#e3e6ea;
+  --accent:#2457d6; --accent-soft:#e8eefc;
+  --no:#c93a3a; --no-soft:#fbeaea; --part:#b7791f; --part-soft:#fdf3e1; --yes:#1f8a4c; --yes-soft:#e5f5ec;
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#111418; --card:#1a1e24; --ink:#e8ebef; --muted:#9aa3ae; --line:#2b313a;
+    --accent:#6d93ff; --accent-soft:#1e2a47; --no:#ff7b7b; --no-soft:#3a1f22; --part:#f0b450; --part-soft:#3a2f1a; --yes:#4fd18b; --yes-soft:#17342a; }
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+.wrap{max-width:960px;margin:0 auto;padding:28px 18px 80px}
+header h1{font-size:28px;margin:0 0 4px;letter-spacing:-.02em}
+header h1 code{font-family:'JetBrains Mono',monospace;color:var(--accent)}
+header p{margin:0;color:var(--muted)}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0}
+.info div{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;font-size:14px}
+.info b{display:block;font-size:13px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.sticky{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.overall{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar{flex:1;min-width:200px;height:12px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.bar span{height:100%;transition:width .3s}
+.bar .y{background:var(--yes)} .bar .p{background:var(--part)} .bar .n{background:var(--no)}
+.stats{font-size:14px;color:var(--muted);white-space:nowrap}
+.stats strong{color:var(--ink);font-size:18px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.tools input{flex:1;min-width:180px;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px}
+.chip,.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn{border-radius:8px}
+.btn:hover,.chip:hover{border-color:var(--accent)}
+.legend{font-size:13px;color:var(--muted);margin:0 0 14px}
+section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+section>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:12px}
+section>summary::-webkit-details-marker{display:none}
+details[open]>summary{border-bottom:1px solid var(--line)}
+.sec-title{flex:1;font-weight:600}
+.sec-title small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.sec-bar{width:120px;height:8px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.sec-bar span{height:100%}
+.sec-pct{font-size:13px;color:var(--muted);width:42px;text-align:right;font-variant-numeric:tabular-nums}
+.chev{transition:transform .2s;color:var(--muted)}
+details[open] .chev{transform:rotate(90deg)}
+.tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:99px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+li:last-child{border-bottom:none}
+li.s-yes{background:var(--yes-soft)} li.s-part{background:var(--part-soft)} li.s-no{background:var(--no-soft)}
+li .txt{flex:1;font-size:15px}
+li .txt em{display:block;font-style:normal;font-size:13px;color:var(--muted)}
+.rate{display:flex;gap:4px;flex-shrink:0}
+.rate button{width:36px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:15px;opacity:.55;transition:all .15s}
+.rate button:hover{opacity:1}
+.rate button.on{opacity:1;transform:scale(1.05)}
+.rate button.on[data-v="no"]{border-color:var(--no);box-shadow:0 0 0 2px var(--no-soft)}
+.rate button.on[data-v="part"]{border-color:var(--part);box-shadow:0 0 0 2px var(--part-soft)}
+.rate button.on[data-v="yes"]{border-color:var(--yes);box-shadow:0 0 0 2px var(--yes-soft)}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.modal .box{background:var(--card);border-radius:var(--radius);padding:20px;max-width:560px;width:100%;max-height:85vh;display:flex;flex-direction:column;gap:12px}
+.modal textarea{width:100%;min-height:260px;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--bg);color:var(--ink);resize:vertical}
+.modal .row{display:flex;gap:8px;justify-content:flex-end}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.danger{color:var(--no);border-color:var(--no)}
+footer{margin-top:30px;font-size:13px;color:var(--muted)}
+footer a{color:var(--accent)}
+@media (max-width:560px){ li{flex-direction:column;align-items:flex-start} .sec-bar{width:60px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Egzamin <code>INF.04</code> – checklista umiejętności</h1>
+  <p>Projektowanie, programowanie i testowanie aplikacji · technik programista. Oceń szczerze każdą umiejętność – zobaczysz, co trzeba powtórzyć.</p>
+</header>
+
+<div class="info">
+  <div><b>Część pisemna</b>40 pytań testowych, 60 min. Zdajesz od 50%.</div>
+  <div><b>Część praktyczna</b>Zadanie przy komputerze, 180 min. Zdajesz od 75%.</div>
+  <div><b>Jak oceniać?</b>❌ nie umiem · ⚠️ częściowo / z pomocą · ✅ umiem samodzielnie</div>
+</div>
+
+<div class="sticky">
+  <div class="overall">
+    <div class="stats"><strong id="pct">0%</strong> opanowane</div>
+    <div class="bar" id="bar"><span class="y"></span><span class="p"></span><span class="n"></span></div>
+    <div class="stats" id="counts"></div>
+  </div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Szukaj umiejętności… (np. rekurencja, React, Gantt)">
+    <button class="chip on" data-f="all">Wszystkie</button>
+    <button class="chip" data-f="todo">Do powtórki</button>
+    <button class="chip" data-f="none">Nieocenione</button>
+    <button class="chip" data-f="yes">Umiem</button>
+  </div>
+  <div class="tools">
+    <button class="btn" id="expand">Rozwiń wszystko</button>
+    <button class="btn" id="collapse">Zwiń wszystko</button>
+    <button class="btn primary" id="summary">📋 Podsumowanie dla nauczyciela</button>
+    <button class="btn danger" id="reset">Wyczyść oceny</button>
+  </div>
+</div>
+
+<p class="legend">Twoje oceny zapisują się w tej przeglądarce. Na innym komputerze (np. w pracowni) zaczniesz od nowa – dlatego skopiuj podsumowanie, jeśli chcesz je zachować lub wysłać nauczycielowi.</p>
+
+<div id="list"></div>
+
+<footer>Zakres na podstawie efektów uczenia się kwalifikacji INF.04 (podstawa programowa 2019, <a href="https://kwalifikacje.gov.pl/zrk2/current/public/kwalifikacja/13447&pdf=true">Zintegrowany Rejestr Kwalifikacji</a>) oraz typowych zadań z arkuszy praktycznych CKE.</footer>
+</div>
+
+<div class="modal hidden" id="modal">
+  <div class="box">
+    <strong id="mTitle"></strong>
+    <div id="mBody"></div>
+    <div class="row" id="mRow"></div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+ {id:"prak", title:"Część praktyczna – to musisz umieć na egzaminie", sub:"Typowy arkusz: aplikacja konsolowa + desktopowa/mobilna lub webowa, testy i dokumentacja", tag:"praktyka", items:[
+  ["Czytam polecenie ze zrozumieniem i planuję czas na 180 minut","najpierw wszystkie wymagania, potem kod"],
+  ["Tworzę projekt w IDE i zapisuję go w folderze nazwanym zgodnie z poleceniem (numer zdającego)"],
+  ["Piszę aplikację konsolową realizującą algorytm z treści (np. sortowanie, liczby pierwsze, NWD, szyfr Cezara, losowanie)"],
+  ["Tworzę klasę według specyfikacji: pola, konstruktor, metody, modyfikatory dostępu"],
+  ["Buduję aplikację desktopową z formularzem (np. WPF/WinForms/Qt) według zrzutu ekranu w arkuszu"],
+  ["Buduję aplikację mobilną (Android Studio / .NET MAUI / React Native) według makiety"],
+  ["Buduję prostą aplikację webową we frameworku (React / Angular / Vue) – komponent, stan, obsługa zdarzeń"],
+  ["Obsługuję zdarzenia: kliknięcie przycisku, zmiana pola tekstowego, wybór z listy, checkbox/radio"],
+  ["Waliduję dane wejściowe i wyświetlam komunikaty (np. okno dialogowe, alert, etykieta)"],
+  ["Stosuję wymagane nazewnictwo zmiennych, klas i kontrolek z polecenia"],
+  ["Piszę komentarz-nagłówek metody/klasy w wymaganym formacie (nazwa, opis, parametry, zwracany typ, autor)"],
+  ["Testuję aplikację dla podanych danych i wykonuję zrzuty ekranu zgodnie z instrukcją"],
+  ["Sporządzam krótką dokumentację / raport z testów (system, IDE, wyniki testów)"],
+  ["Sprawdzam na końcu, czy wszystkie pliki są zapisane i nazwane poprawnie"]
+ ]},
+ {id:"bhp", title:"1. Bezpieczeństwo i higiena pracy", items:[
+  ["Rozróżniam czynniki szkodliwe, uciążliwe i niebezpieczne w pracy przy komputerze"],
+  ["Wiem, czym jest wypadek przy pracy i choroba zawodowa"],
+  ["Znam wymagania ergonomii stanowiska: oświetlenie, odległość od monitora, krzesło, przerwy"],
+  ["Znam zasady ochrony przed porażeniem prądem"],
+  ["Udzielam pierwszej pomocy: ocena stanu, pozycja bezpieczna, wezwanie pomocy (112/999)"],
+  ["Znam zasady RKO według aktualnych wytycznych (30:2, tempo uciśnięć)"]
+ ]},
+ {id:"podst", title:"2. Podstawy informatyki", items:[
+  ["Porównuję parametry podzespołów komputera (procesor, RAM, dysk, karta graficzna)"],
+  ["Przeliczam jednostki pamięci (bit, bajt, KB/KiB, MB/MiB, GB)"],
+  ["Rozumiem architekturę komputera i działanie procesora (rejestry, ALU, cache, magistrale)"],
+  ["Zamieniam liczby między systemami: dwójkowym, ósemkowym, dziesiętnym, szesnastkowym"],
+  ["Zapisuję liczby w kodzie U2 i wykonuję proste działania binarne"],
+  ["Znam topologie sieci, model TCP/IP i podstawowe protokoły (HTTP/HTTPS, DNS, DHCP, FTP)"],
+  ["Rozumiem pojęcia przepustowości, sieci przewodowych i bezprzewodowych"],
+  ["Znam zasady dostępności stron – WCAG 2.0 (teksty alternatywne, kontrast, obsługa klawiaturą)"],
+  ["Rozpoznaję szkodliwe oprogramowanie i ataki (wirus, robak, trojan, ransomware, phishing, DDoS, SQL injection)"],
+  ["Znam sposoby zabezpieczeń: silne hasła, 2FA, szyfrowanie, kopie zapasowe, aktualizacje"],
+  ["Znam zasady ochrony danych osobowych (RODO) i wizerunku w sieci"],
+  ["Wiem, czym są normy (ISO, PN) i oznaczenia zgodności (np. CE)"]
+ ]},
+ {id:"proj", title:"3. Projektowanie oprogramowania", items:[
+  ["Rozróżniam proste typy danych: całkowite, zmiennoprzecinkowe, logiczne, znakowe, łańcuchowe"],
+  ["Posługuję się typami złożonymi: tablice, struktury/rekordy, listy, słowniki, zbiory"],
+  ["Rozumiem wskaźniki/referencje i iteratory"],
+  ["Zapisuję algorytm w postaci schematu blokowego, pseudokodu lub listy kroków"],
+  ["Rozróżniam algorytmy iteracyjne, rekurencyjne i heurystyczne"],
+  ["Określam złożoność obliczeniową algorytmu (notacja O)"],
+  ["Znam i implementuję sortowania: bąbelkowe, przez wybieranie, przez wstawianie, szybkie, przez scalanie"],
+  ["Znam wyszukiwanie liniowe, z wartownikiem i binarne"],
+  ["Znam narzędzia do planowania i współpracy: diagram Gantta, Jira, Trello, Git"],
+  ["Używam podstawowych poleceń Git: init, add, commit, push, pull, branch, merge"],
+  ["Rozróżniam modele cyklu życia: kaskadowy, przyrostowy, prototypowy, zwinne (Scrum, Kanban)"],
+  ["Sporządzam specyfikację wymagań funkcjonalnych i niefunkcjonalnych"],
+  ["Rozumiem architekturę klient–serwer i paradygmaty programowania"],
+  ["Znam wzorce projektowe: metoda szablonowa (Template method), fasada (Facade), kompozyt (Composite)"],
+  ["Rozumiem diagramy UML (klas, przypadków użycia)"],
+  ["Znam prawa autorskie osobiste i majątkowe oraz rodzaje licencji (GPL, MIT, freeware, shareware, OEM, Creative Commons)"]
+ ]},
+ {id:"obj", title:"4. Programowanie (w tym obiektowe)", items:[
+  ["Kompiluję i uruchamiam program; rozumiem różnicę kompilator vs interpreter"],
+  ["Używam debuggera: pułapki (breakpointy), praca krokowa, podgląd zmiennych"],
+  ["Stosuję operatory i znam ich priorytety (arytmetyczne, logiczne, relacyjne, bitowe)"],
+  ["Stosuję instrukcje warunkowe (if, switch) i pętle (for, while, do-while, foreach)"],
+  ["Dzielę program na funkcje/metody z parametrami i wartością zwracaną"],
+  ["Piszę funkcje rekurencyjne (np. silnia, Fibonacci, NWD)"],
+  ["Rozumiem przekazywanie parametrów przez wartość i przez referencję"],
+  ["Korzystam z bibliotek standardowych (napisy, matematyka, kolekcje, losowanie)"],
+  ["Wyjaśniam pojęcia: klasa, obiekt, hermetyzacja, dziedziczenie, polimorfizm"],
+  ["Definiuję klasy z polami, metodami, konstruktorami i destruktorem"],
+  ["Stosuję modyfikatory dostępu: public, private, protected"],
+  ["Stosuję składowe statyczne"],
+  ["Rozumiem funkcje i klasy zaprzyjaźnione (friend w C++)"],
+  ["Tworzę klasy pochodne i hierarchię dziedziczenia"],
+  ["Stosuję metody wirtualne, nadpisywanie (override) i klasy abstrakcyjne"],
+  ["Programuję szablony klas / klasy generyczne"],
+  ["Obsługuję wyjątki: try, catch, throw (finally)"]
+ ]},
+ {id:"desk", title:"5. Aplikacje desktopowe", items:[
+  ["Dobieram środowisko i tworzę projekt aplikacji okienkowej (np. Visual Studio, Qt Creator)"],
+  ["Wiem, czym jest framework i RAD; znam przykłady (WPF, WinForms, Qt)"],
+  ["Projektuję interfejs: etykiety, pola tekstowe, przyciski, listy, pola wyboru, obrazy"],
+  ["Rozmieszczam kontrolki (np. Grid, StackPanel w XAML, layouty w Qt)"],
+  ["Obsługuję zdarzenia myszy i klawiatury"],
+  ["Tworzę okna dialogowe modalne i niemodalne (np. MessageBox)"],
+  ["Tworzę menu i kilka okien aplikacji"]
+ ]},
+ {id:"mob", title:"6. Aplikacje mobilne", items:[
+  ["Tworzę projekt w środowisku mobilnym (Android Studio, Visual Studio / .NET MAUI, Expo/React Native)"],
+  ["Uruchamiam aplikację w emulatorze lub na urządzeniu"],
+  ["Projektuję widok: TextView/EditText/Button, layouty (np. ConstraintLayout, LinearLayout) lub XAML"],
+  ["Obsługuję zdarzenia (np. onClick) i odczytuję dane od użytkownika"],
+  ["Przechodzę między ekranami / aktywnościami"],
+  ["Zapisuję dane użytkownika i łączę się z internetem lub bazą danych"],
+  ["Wiem, jak przygotować aplikację do publikacji w sklepie (Google Play / App Store)"]
+ ]},
+ {id:"web", title:"7. Zaawansowane aplikacje webowe", items:[
+  ["Dobieram środowisko i narzędzia (VS Code, Node.js, npm)"],
+  ["Tworzę projekt we frameworku (React / Angular / Vue / ASP.NET Core / Django)"],
+  ["Tworzę komponenty i przekazuję dane (props / @Input)"],
+  ["Zarządzam stanem komponentu (np. useState) i obsługuję zdarzenia"],
+  ["Wyświetlam listę danych z tablicy (map / *ngFor) i formatuję ją"],
+  ["Tworzę dynamiczny formularz z walidacją"],
+  ["Stosuję Bootstrap lub inny framework CSS do wyglądu"],
+  ["Rozumiem sesje i ciasteczka; wiem, jak działa logowanie i kontrola dostępu"],
+  ["Łączę aplikację z bazą danych / API (fetch, JSON)"],
+  ["Rozumiem funkcje typowych serwisów: e-sklep, portal, ogłoszenia, rezerwacje"]
+ ]},
+ {id:"test", title:"8. Testowanie i dokumentowanie", items:[
+  ["Znajduję i poprawiam błędy składniowe, logiczne i wykonania"],
+  ["Rozróżniam testy funkcjonalne i niefunkcjonalne (wydajność, bezpieczeństwo, użyteczność)"],
+  ["Rozróżniam testy jednostkowe, integracyjne, systemowe i akceptacyjne"],
+  ["Znam testy białej i czarnej skrzynki"],
+  ["Piszę scenariusz testu i przypadki testowe (dane wejściowe → oczekiwany wynik)"],
+  ["Piszę prosty test jednostkowy (np. xUnit/NUnit/JUnit/Jest)"],
+  ["Raportuję błąd: opis, kroki do odtworzenia, wynik oczekiwany vs rzeczywisty"],
+  ["Komentuję kod i tworzę dokumentację (np. komentarze dokumentujące, Doxygen, JSDoc)"],
+  ["Tworzę instrukcję użytkownika i dokumentację wdrożenia"],
+  ["Optymalizuję kod (czytelność, wydajność, usuwanie powtórzeń)"]
+ ]},
+ {id:"jez", title:"9. Język obcy zawodowy", sub:"pytania w części pisemnej", items:[
+  ["Rozumiem angielską terminologię IT (np. compiler, inheritance, exception, release, bug)"],
+  ["Czytam ze zrozumieniem dokumentację techniczną i komunikaty błędów po angielsku"],
+  ["Potrafię napisać krótki opis lub instrukcję po angielsku"]
+ ]},
+ {id:"komp", title:"10. Kompetencje personalne i organizacja pracy zespołu", items:[
+  ["Znam zasady etyki zawodowej i tajemnicy zawodowej"],
+  ["Planuję zadanie i kontroluję czas jego wykonania"],
+  ["Znam techniki radzenia sobie ze stresem i asertywność"],
+  ["Znam zasady komunikacji, aktywnego słuchania i informacji zwrotnej"],
+  ["Rozumiem podział ról w zespole i zasady przydzielania zadań według kompetencji"],
+  ["Wiem, jak oceniać jakość wykonanych zadań i proponować usprawnienia"]
+ ]}
+];
+
+const KEY="inf04-checklista-v1";
+let state={}; try{state=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){state={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
+let filter="all", query="";
+const ICON={no:"❌",part:"⚠️",yes:"✅"}, LABEL={no:"Nie umiem",part:"Częściowo",yes:"Umiem"};
+const allItems=()=>DATA.flatMap(s=>s.items.map((it,i)=>({k:s.id+"-"+i,s,t:it[0]})));
+
+function render(){
+  const list=document.getElementById("list"); list.innerHTML="";
+  DATA.forEach(sec=>{
+    const d=document.createElement("details"); d.className="sec"; d.dataset.id=sec.id;
+    const el=document.createElement("section"); el.appendChild(d);
+    if(sec.id==="prak") d.open=true;
+    d.innerHTML=`<summary><span class="chev">▶</span><span class="sec-title">${sec.title}${sec.tag?`<span class="tag">${sec.tag}</span>`:""}${sec.sub?`<small>${sec.sub}</small>`:""}</span><span class="sec-bar"><span class="y"></span><span class="p"></span><span class="n"></span></span><span class="sec-pct"></span></summary><ul></ul>`;
+    const ul=d.querySelector("ul");
+    sec.items.forEach((it,i)=>{
+      const k=sec.id+"-"+i, li=document.createElement("li"); li.dataset.k=k; li.dataset.text=(it[0]+" "+(it[1]||"")).toLowerCase();
+      li.innerHTML=`<div class="txt">${it[0]}${it[1]?`<em>${it[1]}</em>`:""}</div><div class="rate">${["no","part","yes"].map(v=>`<button data-v="${v}" title="${LABEL[v]}" aria-label="${LABEL[v]}">${ICON[v]}</button>`).join("")}</div>`;
+      li.querySelectorAll("button").forEach(b=>b.onclick=()=>{ state[k]= state[k]===b.dataset.v? undefined : b.dataset.v; if(!state[k]) delete state[k]; save(); update(); });
+      ul.appendChild(li);
+    });
+    list.appendChild(el);
+  });
+  update();
+}
+
+function setBar(el,y,p,n,total){ const s=el.children; s[0].style.width=(y/total*100)+"%"; s[1].style.width=(p/total*100)+"%"; s[2].style.width=(n/total*100)+"%"; }
+
+function update(){
+  let Y=0,P=0,N=0,T=0;
+  document.querySelectorAll("details.sec").forEach(d=>{
+    let y=0,p=0,n=0,t=0,visible=0;
+    d.querySelectorAll("li").forEach(li=>{
+      const v=state[li.dataset.k]; t++;
+      if(v==="yes")y++; else if(v==="part")p++; else if(v==="no")n++;
+      li.className=v?"s-"+v:"";
+      li.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+      let show = !query || li.dataset.text.includes(query);
+      if(filter==="todo") show = show && (v==="no"||v==="part");
+      if(filter==="none") show = show && !v;
+      if(filter==="yes") show = show && v==="yes";
+      li.classList.toggle("hidden",!show); if(show) visible++;
+    });
+    setBar(d.querySelector(".sec-bar"),y,p,n,t);
+    d.querySelector(".sec-pct").textContent=Math.round(y/t*100)+"%";
+    d.parentElement.classList.toggle("hidden",visible===0);
+    if((query||filter!=="all") && visible>0) d.open=true;
+    Y+=y;P+=p;N+=n;T+=t;
+  });
+  setBar(document.getElementById("bar"),Y,P,N,T);
+  document.getElementById("pct").textContent=Math.round(Y/T*100)+"%";
+  document.getElementById("counts").textContent=`✅ ${Y} · ⚠️ ${P} · ❌ ${N} · bez oceny ${T-Y-P-N}`;
+}
+
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); c.classList.add("on"); filter=c.dataset.f; update(); });
+document.getElementById("q").oninput=e=>{ query=e.target.value.trim().toLowerCase(); update(); };
+document.getElementById("expand").onclick=()=>document.querySelectorAll("details.sec").forEach(d=>d.open=true);
+document.getElementById("collapse").onclick=()=>document.querySelectorAll("details.sec").forEach(d=>d.open=false);
+
+const modal=document.getElementById("modal");
+function openModal(title,bodyEl,buttons){
+  document.getElementById("mTitle").textContent=title;
+  const b=document.getElementById("mBody"); b.innerHTML=""; if(bodyEl) b.appendChild(bodyEl);
+  const r=document.getElementById("mRow"); r.innerHTML="";
+  buttons.forEach(([txt,cls,fn])=>{ const x=document.createElement("button"); x.className="btn "+(cls||""); x.textContent=txt; x.onclick=fn; r.appendChild(x); });
+  modal.classList.remove("hidden");
+}
+const close=()=>modal.classList.add("hidden");
+modal.onclick=e=>{ if(e.target===modal) close(); };
+
+document.getElementById("summary").onclick=()=>{
+  const items=allItems(); const y=items.filter(i=>state[i.k]==="yes").length;
+  let txt=`INF.04 – samoocena (${new Date().toLocaleDateString("pl-PL")})\nImię i nazwisko: ____________\nOpanowane: ${y}/${items.length} (${Math.round(y/items.length*100)}%)\n`;
+  DATA.forEach(s=>{
+    const ks=s.items.map((it,i)=>({t:it[0],v:state[s.id+"-"+i]}));
+    const yy=ks.filter(x=>x.v==="yes").length;
+    txt+=`\n## ${s.title} – ${yy}/${ks.length}\n`;
+    const todo=ks.filter(x=>x.v==="no"||x.v==="part"||!x.v);
+    todo.forEach(x=>txt+=`  ${x.v?ICON[x.v]:"○"} ${x.t}\n`);
+    if(!todo.length) txt+="  wszystko opanowane ✅\n";
+  });
+  const ta=document.createElement("textarea"); ta.value=txt; ta.readOnly=true;
+  const info=document.createElement("p"); info.style.cssText="margin:0 0 8px;font-size:13px;color:var(--muted)"; info.textContent="Lista zawiera tylko to, co wymaga powtórki (❌, ⚠️ i nieocenione). Skopiuj i wklej np. do e-maila lub e-dziennika.";
+  const wrap=document.createElement("div"); wrap.append(info,ta);
+  openModal("Podsumowanie samooceny",wrap,[
+    ["Kopiuj","primary",async e=>{ try{ await navigator.clipboard.writeText(txt); e.target.textContent="Skopiowano ✓"; }catch(err){ ta.select(); e.target.textContent="Zaznaczono – naciśnij Ctrl+C"; } }],
+    ["Zamknij","",close]
+  ]);
+};
+document.getElementById("reset").onclick=()=>{
+  const p=document.createElement("p"); p.style.margin="0"; p.textContent="Czy na pewno usunąć wszystkie Twoje oceny? Tej operacji nie można cofnąć.";
+  openModal("Wyczyść oceny",p,[["Anuluj","",close],["Wyczyść","danger",()=>{ state={}; save(); update(); close(); }]]);
+};
+render();
+</script>
+</body>
+</html>
