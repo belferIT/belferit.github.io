@@ -4,7 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Informatyka – materiały dla uczniów</title>
-  <meta name="description" content="Materiały do lekcji informatyki – Marcin Wojciechowski">
+  <meta name="description" content="Materiały do lekcji informatyki – ITTeacherPL">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Informatyka – materiały dla uczniów">
+  <meta property="og:description" content="Materiały do lekcji informatyki – ITTeacherPL">
+  <meta property="og:url" content="https://wojcieh.github.io/">
+  <meta property="og:locale" content="pl_PL">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
   <style>
     :root {
       --bg: #f4f6fb;
@@ -36,33 +43,33 @@
       display: flex;
       flex-direction: column;
     }
-    header {
-      padding: 3.5rem 1.5rem 2rem;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0 0 .5rem;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-    }
-    header p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.1rem;
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     main {
       flex: 1;
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding: 1rem 1.5rem 3rem;
+      padding: 3rem 1.5rem 3rem;
     }
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 1.25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
     .card {
       display: block;
+      height: 100%;
       background: var(--card);
       border-radius: var(--radius);
       padding: 1.5rem;
@@ -104,28 +111,30 @@
       color: var(--muted);
       font-size: .9rem;
     }
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+      .card:hover, .card:focus-visible { transform: none; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Informatyka</h1>
-    <p>Materiały do lekcji – wybierz temat</p>
-  </header>
-
   <main>
-    <div class="cards">
-      <!-- Kolejne tematy dodawaj, kopiując cały blok <a class="card">…</a> -->
-      <a class="card" href="bezpieczenstwo-w-sieci/">
-        <div class="icon" aria-hidden="true">🔒</div>
-        <h2>Bezpieczeństwo w sieci</h2>
-        <p>Jak chronić siebie i swoich bliskich w internecie.</p>
-        <span class="go">Przejdź →</span>
-      </a>
-    </div>
+    <h1 class="sr-only">Informatyka – materiały do lekcji</h1>
+    <ul class="cards">
+      <!-- Kolejne tematy dodawaj, kopiując cały blok <li>…</li> -->
+      <li>
+        <a class="card" href="bezpieczenstwo-w-sieci/">
+          <div class="icon" aria-hidden="true">🔒</div>
+          <h2>Bezpieczeństwo w sieci</h2>
+          <p>Jak chronić siebie i swoich bliskich w internecie.</p>
+          <span class="go" aria-hidden="true">Przejdź →</span>
+        </a>
+      </li>
+    </ul>
   </main>
 
   <footer>
-    Marcin Wojciechowski
+    ITTeacherPL
   </footer>
 </body>
 </html>
