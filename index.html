@@ -20,6 +20,7 @@
       --muted: #5b6478;
       --accent: #2563eb;
       --accent-soft: #e0e9ff;
+      --border-soon: #dde3ee;
       --radius: 16px;
     }
     @media (prefers-color-scheme: dark) {
@@ -30,6 +31,7 @@
         --muted: #9aa3b8;
         --accent: #6c9bff;
         --accent-soft: #24304d;
+        --border-soon: #2a3247;
       }
     }
     * { box-sizing: border-box; }
@@ -57,7 +59,12 @@
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding: 3rem 1.5rem 3rem;
+      padding: 2rem 1.5rem 3rem;
+    }
+    section + section { margin-top: 3rem; }
+    .section-title {
+      margin: 0 0 1.25rem;
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
     }
     .cards {
       display: grid;
@@ -93,7 +100,7 @@
       font-size: 1.6rem;
       margin-bottom: 1rem;
     }
-    .card h2 {
+    .card h3 {
       margin: 0 0 .4rem;
       font-size: 1.25rem;
     }
@@ -103,6 +110,21 @@
     }
     .card .go {
       color: var(--accent);
+      font-weight: 600;
+    }
+    .card.soon {
+      background: transparent;
+      box-shadow: none;
+      border: 2px dashed var(--border-soon);
+    }
+    .card.soon .icon { background: var(--border-soon); }
+    .badge {
+      display: inline-block;
+      padding: .15rem .65rem;
+      border-radius: 999px;
+      background: var(--border-soon);
+      color: var(--muted);
+      font-size: .85rem;
       font-weight: 600;
     }
     footer {
@@ -120,25 +142,91 @@
 <body>
   <main>
     <h1 class="sr-only">Informatyka – materiały do lekcji</h1>
+    <!-- Gotowy temat: blok <li> z <a class="card" href="…">.
+         Zapowiedź: blok <li> z <div class="card soon"> i etykietą „Wkrótce”. -->
+    <section aria-labelledby="podstawy">
+    <h2 class="section-title" id="podstawy">Podstawy</h2>
     <ul class="cards">
-      <!-- Kolejne tematy dodawaj, kopiując cały blok <li>…</li> -->
       <li>
         <a class="card" href="bezpieczenstwo-w-sieci/">
           <div class="icon" aria-hidden="true">🔒</div>
-          <h2>Bezpieczeństwo w sieci</h2>
+          <h3>Bezpieczeństwo w sieci</h3>
           <p>Jak chronić siebie i swoich bliskich w internecie.</p>
           <span class="go" aria-hidden="true">Przejdź →</span>
         </a>
       </li>
       <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">📰</div>
+          <h3>Informacja i dezinformacja</h3>
+          <p>Jak sprawdzać wiadomości, rozpoznawać fałszywe zdjęcia, deepfake’i i manipulację w sieci.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">🤖</div>
+          <h3>Sztuczna inteligencja w praktyce</h3>
+          <p>Jak mądrze korzystać z czatbotów, weryfikować ich odpowiedzi i dbać o swoje dane.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">🏛️</div>
+          <h3>E-usługi na co dzień</h3>
+          <p>mObywatel, Profil Zaufany, e-recepta, e-PIT i bezpieczne płatności online.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">💬</div>
+          <h3>Komunikacja i współpraca w sieci</h3>
+          <p>Netykieta, reagowanie na hejt, cyfrowy wizerunek i praca zespołowa w chmurze.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">🎨</div>
+          <h3>Tworzenie treści i prawo autorskie</h3>
+          <p>Co wolno wykorzystać, licencje Creative Commons i dokumenty, które wyglądają profesjonalnie.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">🛠️</div>
+          <h3>Rozwiązywanie problemów</h3>
+          <p>Jak samodzielnie radzić sobie z problemami technicznymi, szukać pomocy i myśleć algorytmicznie.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <div class="icon" aria-hidden="true">🧘</div>
+          <h3>Higiena cyfrowa</h3>
+          <p>Czas przed ekranem, mechanizmy walczące o naszą uwagę i ustawienia, które pomagają.</p>
+          <span class="badge">Wkrótce</span>
+        </div>
+      </li>
+    </ul>
+    </section>
+
+    <section aria-labelledby="egzaminy">
+    <h2 class="section-title" id="egzaminy">Egzaminy zawodowe</h2>
+    <ul class="cards">
+      <li>
         <a class="card" href="INF.04%20%E2%80%93%20checklista%20umiej%C4%99tno%C5%9Bci.html">
           <div class="icon" aria-hidden="true">✅</div>
-          <h2>INF.04 – checklista umiejętności</h2>
+          <h3>INF.04 – checklista umiejętności</h3>
           <p>Sprawdź, co już umiesz przed egzaminem zawodowym, i zobacz, co trzeba powtórzyć.</p>
           <span class="go" aria-hidden="true">Przejdź →</span>
         </a>
       </li>
     </ul>
+    </section>
   </main>
 
   <footer>

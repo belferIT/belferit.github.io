@@ -4,7 +4,7 @@ Strona z materiałami do lekcji informatyki, publikowana przez GitHub Pages pod 
 
 ## Dodawanie nowego tematu
 
-W `index.html` skopiuj cały blok `<li>…</li>` wewnątrz `<ul class="cards">` i zmień:
+W `index.html` w odpowiedniej sekcji (`Podstawy` lub `Egzaminy zawodowe`) skopiuj cały blok `<li>…</li>` z kartą i zmień:
 
 - `href` – adres strony z tematem,
 - ikonę (emoji),
@@ -17,3 +17,7 @@ W `index.html` skopiuj cały blok `<li>…</li>` wewnątrz `<ul class="cards">` 
 - `.nojekyll` – wyłącza przetwarzanie przez Jekylla (strona to czysty HTML)
 
 Autor: ITTeacherPL
+
+## Zapowiedź tematu
+
+Temat, który jeszcze nie jest gotowy, to karta `<div class="card soon">` z etykietą „Wkrótce” (bez linku). Gdy materiał będzie gotowy, zamień `<div class="card soon">` na `<a class="card" href="…">`, a etykietę na `<span class="go" aria-hidden="true">Przejdź →</span>`.
