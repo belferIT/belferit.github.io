@@ -11,330 +11,258 @@
   <meta property="og:description" content="Materiały do lekcji informatyki – ITTeacherPL">
   <meta property="og:url" content="https://wojcieh.github.io/">
   <meta property="og:locale" content="pl_PL">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23a3341f'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' text-anchor='middle' fill='%23faf8f3'>IT</text></svg>">
   <style>
     :root {
-      --bg: #f4f6fb;
-      --card: #ffffff;
-      --text: #1d2433;
-      --muted: #5b6478;
-      --accent: #2563eb;
-      --accent-soft: #e0e9ff;
-      --border-soon: #dde3ee;
-      --radius: 16px;
+      --paper: #faf8f3;
+      --ink: #23211d;
+      --muted: #6b665d;
+      --rule: #e2ddd2;
+      --accent: #a3341f;
+      --mark: #f6e7a6;
+      --serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+      --mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, "Liberation Mono", monospace;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #11151f;
-        --card: #1a2030;
-        --text: #e8ecf5;
-        --muted: #9aa3b8;
-        --accent: #6c9bff;
-        --accent-soft: #24304d;
-        --border-soon: #2a3247;
+        --paper: #1c1b18;
+        --ink: #ebe7de;
+        --muted: #a69f93;
+        --rule: #34312b;
+        --accent: #f0907a;
+        --mark: #4d4220;
       }
     }
     * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.125rem;
       line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 900px;
+    .page {
+      max-width: 44rem;
       margin: 0 auto;
-      padding: 2rem 1.5rem 3rem;
+      padding: 3.5rem 1.25rem 2rem;
     }
-    section + section { margin-top: 3rem; }
-    .section-title {
-      margin: 0 0 1.25rem;
-      font-size: clamp(1.4rem, 3vw, 1.75rem);
-    }
-    .section-title.qual { font-size: clamp(1.2rem, 2.5vw, 1.45rem); }
-    .section-lead {
-      margin: -.75rem 0 1.25rem;
-      color: var(--muted);
-    }
-    .section-code {
-      display: block;
-      margin-bottom: .2rem;
-      color: var(--accent);
-      font-size: .95rem;
-      font-weight: 700;
-      letter-spacing: .03em;
-    }
-    .empty {
+    a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    /* Nagłówek z krótkim wstępem */
+    .site-name {
       margin: 0;
-      padding: 1.25rem 1.5rem;
-      border: 2px dashed var(--border-soon);
-      border-radius: var(--radius);
-      color: var(--muted);
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .card {
-      display: block;
-      height: 100%;
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      text-decoration: none;
-      color: inherit;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-      border: 2px solid transparent;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-    }
-    .card:hover, .card:focus-visible {
-      transform: translateY(-3px);
-      border-color: var(--accent);
-      box-shadow: 0 6px 20px rgba(0,0,0,.1);
-      outline: none;
-    }
-    .card .icon {
-      width: 52px; height: 52px;
-      border-radius: 12px;
-      background: var(--accent-soft);
-      display: grid; place-items: center;
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-    }
-    .card h3 {
-      margin: 0 0 .4rem;
-      font-size: 1.25rem;
-    }
-    .card p {
-      margin: 0 0 1rem;
-      color: var(--muted);
-    }
-    .card .go {
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .card.soon {
-      background: transparent;
-      box-shadow: none;
-      border: 2px dashed var(--border-soon);
-    }
-    .card.soon .icon { background: var(--border-soon); }
-    .badge {
-      display: inline-block;
-      padding: .15rem .65rem;
-      border-radius: 999px;
-      background: var(--border-soon);
-      color: var(--muted);
-      font-size: .85rem;
-      font-weight: 600;
-    }
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      color: var(--muted);
+      font-family: var(--mono);
       font-size: .9rem;
+      letter-spacing: .02em;
+      color: var(--muted);
     }
-    @media (prefers-reduced-motion: reduce) {
-      .card { transition: none; }
-      .card:hover, .card:focus-visible { transform: none; }
+    h1 {
+      margin: .35rem 0 1rem;
+      font-size: clamp(1.9rem, 5vw, 2.5rem);
+      line-height: 1.15;
+      font-weight: 700;
     }
+    .intro { margin: 0 0 1rem; max-width: 36rem; }
+    .updated {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    /* Spis treści */
+    .toc {
+      margin: 2.25rem 0 0;
+      padding: .9rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      font-size: 1rem;
+    }
+    .toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+
+    /* Sekcje */
+    section { margin-top: 3rem; scroll-margin-top: 1rem; }
+    h2 {
+      margin: 0 0 .25rem;
+      font-size: 1.55rem;
+      line-height: 1.25;
+    }
+    h3 {
+      margin: 2rem 0 .25rem;
+      font-size: 1.15rem;
+      line-height: 1.35;
+    }
+    .code {
+      font-family: var(--mono);
+      font-size: .85em;
+      font-weight: 600;
+      color: var(--accent);
+      margin-right: .4rem;
+    }
+    .lead { margin: 0 0 1rem; color: var(--muted); }
+
+    /* Lista tematów */
+    .items { list-style: none; margin: 0; padding: 0; }
+    .items li {
+      padding: .8rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .items li:last-child { border-bottom: 0; }
+    .items .title { font-weight: 700; }
+    .items p { margin: .15rem 0 0; color: var(--muted); font-size: 1rem; }
+    .items .planned .title { color: var(--ink); font-weight: 600; }
+    .tag {
+      display: inline-block;
+      margin-left: .4rem;
+      font-family: var(--mono);
+      font-size: .75rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .start {
+      background: var(--mark);
+      color: var(--ink);
+      padding: 0 .3rem;
+      border-radius: 2px;
+    }
+    .soon-note { margin: .5rem 0 0; color: var(--muted); font-style: italic; font-size: 1rem; }
+
+    footer {
+      width: min(41.5rem, calc(100% - 2.5rem));
+      margin: 3.5rem auto 0;
+      padding: 1.25rem 0 2.5rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    footer p { margin: 0; }
   </style>
 </head>
 <body>
-  <main>
-    <h1 class="sr-only">ITTeacherPL – materiały do nauki informatyki</h1>
-    <!-- Gotowy temat: blok <li> z <a class="card" href="…">.
-         Zapowiedź: blok <li> z <div class="card soon"> i etykietą „Wkrótce”. -->
-    <section aria-labelledby="podstawy">
-    <h2 class="section-title" id="podstawy">Podstawy</h2>
-    <ul class="cards">
-      <li>
-        <a class="card" href="bezpieczenstwo-w-sieci/">
-          <div class="icon" aria-hidden="true">🔒</div>
-          <h3>Bezpieczeństwo w sieci</h3>
-          <p>Jak chronić siebie i swoich bliskich w internecie.</p>
-          <span class="go" aria-hidden="true">Przejdź →</span>
-        </a>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">📰</div>
-          <h3>Informacja i dezinformacja</h3>
-          <p>Jak sprawdzać wiadomości, rozpoznawać fałszywe zdjęcia, deepfake’i i manipulację w sieci.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🤖</div>
-          <h3>Sztuczna inteligencja w praktyce</h3>
-          <p>Jak mądrze korzystać z czatbotów, weryfikować ich odpowiedzi i dbać o swoje dane.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🏛️</div>
-          <h3>E-usługi na co dzień</h3>
-          <p>mObywatel, Profil Zaufany, e-recepta, e-PIT i bezpieczne płatności online.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">💬</div>
-          <h3>Komunikacja i współpraca w sieci</h3>
-          <p>Netykieta, reagowanie na hejt, cyfrowy wizerunek i praca zespołowa w chmurze.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🎨</div>
-          <h3>Tworzenie treści i prawo autorskie</h3>
-          <p>Co wolno wykorzystać, licencje Creative Commons i dokumenty, które wyglądają profesjonalnie.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🛠️</div>
-          <h3>Rozwiązywanie problemów</h3>
-          <p>Jak samodzielnie radzić sobie z problemami technicznymi, szukać pomocy i myśleć algorytmicznie.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🧘</div>
-          <h3>Higiena cyfrowa</h3>
-          <p>Czas przed ekranem, mechanizmy walczące o naszą uwagę i ustawienia, które pomagają.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-    </ul>
-    </section>
+  <div class="page">
+    <header>
+      <p class="site-name">ITTeacherPL</p>
+      <h1>Materiały do nauki informatyki</h1>
+      <!-- Wstęp: napisz go własnymi słowami – to najważniejszy „ludzki” element strony. -->
+      <p class="intro">Uczę informatyki w technikum. Odkładam tu materiały, z których korzystam na lekcjach: od bezpieczeństwa w sieci, przez pierwsze programy w Scratchu, po przygotowanie do egzaminów zawodowych. Część tematów jeszcze piszę, więc lista będzie rosła.</p>
+      <!-- Zmieniaj datę przy każdej aktualizacji strony. -->
+      <p class="updated">Ostatnia aktualizacja: 17 listopada 2026</p>
+    </header>
 
-    <section aria-labelledby="programowanie">
-    <h2 class="section-title" id="programowanie">Nauka programowania</h2>
-    <ul class="cards">
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🐱</div>
-          <h3>Scratch</h3>
-          <p>Pierwsze kroki w programowaniu – układanie skryptów z bloków, animacje i proste gry.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">⛏️</div>
-          <h3>Minecraft</h3>
-          <p>Programowanie w świecie Minecrafta – automatyzacja, pętle i warunki w praktyce.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <div class="icon" aria-hidden="true">🎮</div>
-          <h3>Roblox</h3>
-          <p>Tworzenie własnych gier w Roblox Studio i pisanie skryptów w języku Lua.</p>
-          <span class="badge">Wkrótce</span>
-        </div>
-      </li>
-    </ul>
-    </section>
+    <nav class="toc" aria-label="Na tej stronie">
+      <ul>
+        <li><a href="#podstawy">Podstawy</a></li>
+        <li><a href="#programowanie">Nauka programowania</a></li>
+        <li><a href="#inf02">INF.02</a></li>
+        <li><a href="#inf03">INF.03</a></li>
+        <li><a href="#inf04">INF.04</a></li>
+        <li><a href="#narzedziownik">Narzędziownik</a></li>
+      </ul>
+    </nav>
 
-    <section aria-labelledby="inf02">
-    <h2 class="section-title qual" id="inf02"><span class="section-code">INF.02</span>Administracja i eksploatacja systemów komputerowych, urządzeń peryferyjnych i lokalnych sieci komputerowych</h2>
-    <p class="empty">Tu pojawią się repozytoria do przedmiotów z tej kwalifikacji.</p>
-    <!-- Gdy dodasz pierwsze repozytorium, usuń akapit <p class="empty"> powyżej i wstaw listę:
-    <ul class="cards">
-      <li>
-        <a class="card" href="https://github.com/…">
-          <div class="icon" aria-hidden="true">📁</div>
-          <h3>Nazwa przedmiotu</h3>
-          <p>Krótki opis zawartości repozytorium.</p>
-          <span class="go" aria-hidden="true">Otwórz repozytorium →</span>
-        </a>
-      </li>
-    </ul>
-    -->
-    </section>
+    <main>
+      <!--
+        Gotowy temat:
+          <li><a class="title" href="adres/">Nazwa</a><p>Opis.</p></li>
+        Temat w przygotowaniu:
+          <li class="planned"><span class="title">Nazwa</span> <span class="tag">w przygotowaniu</span><p>Opis.</p></li>
+      -->
+      <section id="podstawy" aria-labelledby="h-podstawy">
+        <h2 id="h-podstawy">Podstawy</h2>
+        <p class="lead">Kompetencje cyfrowe, które przydają się każdemu, nie tylko na lekcji.</p>
+        <ul class="items">
+          <li>
+            <a class="title" href="bezpieczenstwo-w-sieci/">Bezpieczeństwo w sieci</a>
+            <span class="tag start">zacznij tutaj</span>
+            <p>Jak chronić siebie i swoich bliskich w internecie.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Informacja i dezinformacja</span> <span class="tag">w przygotowaniu</span>
+            <p>Jak sprawdzać wiadomości, rozpoznawać fałszywe zdjęcia, deepfake’i i manipulację w sieci.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Sztuczna inteligencja w praktyce</span> <span class="tag">w przygotowaniu</span>
+            <p>Jak mądrze korzystać z czatbotów, weryfikować ich odpowiedzi i dbać o swoje dane.</p>
+          </li>
+          <li class="planned">
+            <span class="title">E-usługi na co dzień</span> <span class="tag">w przygotowaniu</span>
+            <p>mObywatel, Profil Zaufany, e-recepta, e-PIT i bezpieczne płatności online.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Komunikacja i współpraca w sieci</span> <span class="tag">w przygotowaniu</span>
+            <p>Netykieta, reagowanie na hejt, cyfrowy wizerunek i praca zespołowa w chmurze.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Tworzenie treści i prawo autorskie</span> <span class="tag">w przygotowaniu</span>
+            <p>Co wolno wykorzystać, licencje Creative Commons i dokumenty, które wyglądają profesjonalnie.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Rozwiązywanie problemów</span> <span class="tag">w przygotowaniu</span>
+            <p>Jak samodzielnie radzić sobie z problemami technicznymi, szukać pomocy i myśleć algorytmicznie.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Higiena cyfrowa</span> <span class="tag">w przygotowaniu</span>
+            <p>Czas przed ekranem, mechanizmy walczące o naszą uwagę i ustawienia, które pomagają.</p>
+          </li>
+        </ul>
+      </section>
 
-    <section aria-labelledby="inf03">
-    <h2 class="section-title qual" id="inf03"><span class="section-code">INF.03</span>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</h2>
-    <p class="empty">Tu pojawią się repozytoria do przedmiotów z tej kwalifikacji.</p>
-    <!-- Gdy dodasz pierwsze repozytorium, usuń akapit <p class="empty"> powyżej i wstaw listę:
-    <ul class="cards">
-      <li>
-        <a class="card" href="https://github.com/…">
-          <div class="icon" aria-hidden="true">📁</div>
-          <h3>Nazwa przedmiotu</h3>
-          <p>Krótki opis zawartości repozytorium.</p>
-          <span class="go" aria-hidden="true">Otwórz repozytorium →</span>
-        </a>
-      </li>
-    </ul>
-    -->
-    </section>
+      <section id="programowanie" aria-labelledby="h-programowanie">
+        <h2 id="h-programowanie">Nauka programowania</h2>
+        <p class="lead">Dla młodszych i dla tych, którzy dopiero zaczynają.</p>
+        <ul class="items">
+          <li class="planned">
+            <span class="title">Scratch</span> <span class="tag">w przygotowaniu</span>
+            <p>Pierwsze programy z bloków: animacje i proste gry.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Minecraft</span> <span class="tag">w przygotowaniu</span>
+            <p>Pętle i warunki w świecie Minecrafta.</p>
+          </li>
+          <li class="planned">
+            <span class="title">Roblox</span> <span class="tag">w przygotowaniu</span>
+            <p>Własne gry w Roblox Studio i pierwsze skrypty w Lua.</p>
+          </li>
+        </ul>
+      </section>
 
-    <section aria-labelledby="inf04">
-    <h2 class="section-title qual" id="inf04"><span class="section-code">INF.04</span>Projektowanie, programowanie i testowanie aplikacji</h2>
-    <ul class="cards">
-      <!-- Kolejne repozytoria do przedmiotów dodawaj, kopiując cały blok <li>…</li>
-           (przycisk: <span class="go" aria-hidden="true">Otwórz repozytorium →</span>) -->
-      <li>
-        <a class="card" href="INF.04%20%E2%80%93%20checklista%20umiej%C4%99tno%C5%9Bci.html">
-          <div class="icon" aria-hidden="true">✅</div>
-          <h3>INF.04 – checklista umiejętności</h3>
-          <p>Sprawdź, co już umiesz przed egzaminem zawodowym, i zobacz, co trzeba powtórzyć.</p>
-          <span class="go" aria-hidden="true">Przejdź →</span>
-        </a>
-      </li>
-    </ul>
-    </section>
+      <!-- Repozytorium do przedmiotu:
+           <li><a class="title" href="https://github.com/…">Nazwa przedmiotu</a><p>Co jest w repozytorium.</p></li> -->
+      <section id="inf02" aria-labelledby="h-inf02">
+        <h2 id="h-inf02"><span class="code">INF.02</span>Administracja i eksploatacja systemów komputerowych, urządzeń peryferyjnych i lokalnych sieci komputerowych</h2>
+        <p class="soon-note">Repozytoria do przedmiotów jeszcze przygotowuję.</p>
+      </section>
 
-    <section aria-labelledby="narzedziownik">
-    <h2 class="section-title" id="narzedziownik">Narzędziownik Szkolnego Informatyka</h2>
-    <p class="section-lead">Przydatne narzędzia w zarządzaniu pracownią komputerową.</p>
-    <p class="empty">Narzędzia pojawią się wkrótce.</p>
-    <!-- Gdy dodasz pierwsze narzędzie, usuń akapit <p class="empty"> powyżej i wstaw listę:
-    <ul class="cards">
-      <li>
-        <a class="card" href="https://…">
-          <div class="icon" aria-hidden="true">🧰</div>
-          <h3>Nazwa narzędzia</h3>
-          <p>Do czego służy w pracowni.</p>
-          <span class="go" aria-hidden="true">Przejdź →</span>
-        </a>
-      </li>
-    </ul>
-    -->
-    </section>
-  </main>
+      <section id="inf03" aria-labelledby="h-inf03">
+        <h2 id="h-inf03"><span class="code">INF.03</span>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</h2>
+        <p class="soon-note">Repozytoria do przedmiotów jeszcze przygotowuję.</p>
+      </section>
+
+      <section id="inf04" aria-labelledby="h-inf04">
+        <h2 id="h-inf04"><span class="code">INF.04</span>Projektowanie, programowanie i testowanie aplikacji</h2>
+        <ul class="items">
+          <li>
+            <a class="title" href="INF.04%20%E2%80%93%20checklista%20umiej%C4%99tno%C5%9Bci.html">Checklista umiejętności do egzaminu</a>
+            <p>Zaznaczasz, co już umiesz, i od razu widać, co trzeba powtórzyć przed egzaminem.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="narzedziownik" aria-labelledby="h-narzedziownik">
+        <h2 id="h-narzedziownik">Narzędziownik Szkolnego Informatyka</h2>
+        <p class="lead">Przydatne narzędzia w zarządzaniu pracownią komputerową.</p>
+        <p class="soon-note">Pierwsze narzędzia pojawią się wkrótce.</p>
+      </section>
+    </main>
+  </div>
 
   <footer>
-    ITTeacherPL
+    <p>ITTeacherPL · bez ciasteczek i śledzenia</p>
   </footer>
 </body>
 </html>
