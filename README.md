@@ -1,4 +1,4 @@
-# ITTeacherPL – materiały do nauki informatyki
+# BelferIT – materiały do nauki informatyki
 
 Strona z materiałami do lekcji informatyki, publikowana przez GitHub Pages pod adresem https://belferit.github.io/.
 
@@ -38,4 +38,4 @@ Zaktualizuj datę w linijce „Ostatnia aktualizacja” na górze strony.
 - `404.html` – strona wyświetlana przy błędnym adresie
 - `.nojekyll` – wyłącza przetwarzanie przez Jekylla (strona to czysty HTML)
 
-Autor: ITTeacherPL
+Autor: BelferIT
