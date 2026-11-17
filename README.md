@@ -1,6 +1,6 @@
 # ITTeacherPL – materiały do nauki informatyki
 
-Strona z materiałami do lekcji informatyki, publikowana przez GitHub Pages pod adresem https://wojcieh.github.io/.
+Strona z materiałami do lekcji informatyki, publikowana przez GitHub Pages pod adresem https://belferit.github.io/.
 
 ## Dodawanie gotowego tematu
 
