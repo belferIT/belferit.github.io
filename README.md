@@ -1,10 +1,10 @@
-# Informatyka – materiały dla uczniów
+# ITTeacherPL – materiały do nauki informatyki
 
 Strona z materiałami do lekcji informatyki, publikowana przez GitHub Pages pod adresem https://wojcieh.github.io/.
 
 ## Dodawanie nowego tematu
 
-W `index.html` w odpowiedniej sekcji (`Podstawy` lub `Egzaminy zawodowe`) skopiuj cały blok `<li>…</li>` z kartą i zmień:
+W `index.html` w odpowiedniej sekcji (np. `Podstawy`, `Nauka programowania` lub sekcja kwalifikacji) skopiuj cały blok `<li>…</li>` z kartą i zmień:
 
 - `href` – adres strony z tematem,
 - ikonę (emoji),
