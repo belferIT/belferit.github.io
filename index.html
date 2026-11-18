@@ -11,168 +11,259 @@
   <meta property="og:description" content="Materiały do lekcji informatyki – BelferIT">
   <meta property="og:url" content="https://belferit.github.io/">
   <meta property="og:locale" content="pl_PL">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23a3341f'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' text-anchor='middle' fill='%23faf8f3'>IT</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2314234b'/><text x='16' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='900' text-anchor='middle' fill='%23ffc94a'>B</text></svg>">
+  <meta name="theme-color" content="#14234b">
   <style>
+    @font-face {
+      font-family: "Nunito";
+      font-style: normal;
+      font-display: swap;
+      font-weight: 200 1000;
+      src: url(fonts/nunito-latin-ext-wght-normal.woff2) format("woff2");
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    @font-face {
+      font-family: "Nunito";
+      font-style: normal;
+      font-display: swap;
+      font-weight: 200 1000;
+      src: url(fonts/nunito-latin-wght-normal.woff2) format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
     :root {
-      --paper: #faf8f3;
-      --ink: #23211d;
-      --muted: #6b665d;
-      --rule: #e2ddd2;
-      --accent: #a3341f;
-      --mark: #f6e7a6;
-      --serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
-      --mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, "Liberation Mono", monospace;
+      --navy: #14234b;
+      --navy-2: #1e3470;
+      --paper: #f5f7fc;
+      --surface: #ffffff;
+      --ink: #14234b;
+      --muted: #4d5a78;
+      --rule: #e1e7f3;
+      --yellow: #ffc94a;
+      --tag-bg: #e3ebfb;
+      --tag-ink: #2a3d72;
+      --hero-ink: #ffffff;
+      --code-bg: #14234b;
+      --hero-muted: #c3cdeb;
+      --c1: #ffc94a;  /* Podstawy */
+      --c2: #ff8a70;  /* Programowanie */
+      --c3: #6ea8ff;  /* Kwalifikacje */
+      --c4: #4fd1a5;  /* Narzędziownik */
+      --font: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, monospace;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --paper: #1c1b18;
-        --ink: #ebe7de;
-        --muted: #a69f93;
-        --rule: #34312b;
-        --accent: #f0907a;
-        --mark: #4d4220;
+        --navy: #101c3d;
+        --navy-2: #1a2c5c;
+        --paper: #0b142c;
+        --surface: #14234b;
+        --ink: #eaf0fc;
+        --muted: #aab6d4;
+        --rule: #22335e;
+        --tag-bg: #22355f;
+        --tag-ink: #d6e2ff;
+        --code-bg: #2a4385;
       }
     }
     * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     body {
       margin: 0;
       background: var(--paper);
       color: var(--ink);
-      font-family: var(--serif);
-      font-size: 1.125rem;
+      font-family: var(--font);
+      font-size: 1.09rem;
       line-height: 1.6;
     }
-    .page {
-      max-width: 44rem;
+    .wrap {
+      width: min(46rem, calc(100% - 2.5rem));
       margin: 0 auto;
-      padding: 3.5rem 1.25rem 2rem;
     }
-    a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: 1px; }
-    a:hover { text-decoration-thickness: 2px; }
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; border-radius: 4px; }
 
-    /* Nagłówek z krótkim wstępem */
-    .site-name {
-      margin: 0;
-      font-family: var(--mono);
-      font-size: .9rem;
-      letter-spacing: .02em;
-      color: var(--muted);
+    /* ---------- Granatowy nagłówek ---------- */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--navy);
+      background-image:
+        radial-gradient(circle at 88% 18%, rgba(110,168,255,.13) 0 7rem, transparent 7.1rem),
+        radial-gradient(circle at 96% 85%, rgba(255,201,74,.10) 0 4.5rem, transparent 4.6rem);
+      color: var(--hero-ink);
+      padding: 2.75rem 0 2.25rem;
     }
-    h1 {
-      margin: .35rem 0 1rem;
-      font-size: clamp(1.9rem, 5vw, 2.5rem);
-      line-height: 1.15;
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: .01em;
+    }
+    .brand svg { flex: none; }
+    .hero h1 {
+      margin: 1.1rem 0 .9rem;
+      font-size: clamp(2rem, 5.5vw, 2.9rem);
+      line-height: 1.12;
+      font-weight: 900;
+    }
+    .squiggle {
+      padding-bottom: .12em;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 5 Q6 0 12 5 T24 5' fill='none' stroke='%23ffc94a' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") left bottom / 24px 8px repeat-x;
+    }
+    .intro { margin: 0 0 1rem; max-width: 37rem; color: var(--hero-ink); }
+    .updated { margin: 0; font-size: .9rem; color: var(--hero-muted); }
+    .toc { margin-top: 1.75rem; }
+    .toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+    .toc a {
+      display: inline-block;
+      padding: .3rem .85rem;
+      border: 1.5px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      color: var(--hero-ink);
+      text-decoration: none;
       font-weight: 700;
+      font-size: .95rem;
+      transition: background .15s, border-color .15s, color .15s;
     }
-    .intro { margin: 0 0 1rem; max-width: 36rem; }
-    .updated {
-      margin: 0;
-      font-family: var(--mono);
-      font-size: .82rem;
-      color: var(--muted);
-    }
+    .toc a:hover { background: var(--yellow); border-color: var(--yellow); color: #14234b; }
 
-    /* Spis treści */
-    .toc {
-      margin: 2.25rem 0 0;
-      padding: .9rem 0;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      font-size: 1rem;
-    }
-    .toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
-
-    /* Sekcje */
-    section { margin-top: 3rem; scroll-margin-top: 1rem; }
+    /* ---------- Sekcje ---------- */
+    main { padding: 1rem 0 1rem; }
+    section { margin-top: 2.75rem; scroll-margin-top: 1rem; }
     h2 {
-      margin: 0 0 .25rem;
-      font-size: 1.55rem;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: .25rem .6rem;
+      margin: 0 0 .3rem;
+      font-size: 1.6rem;
       line-height: 1.25;
+      font-weight: 900;
     }
-    h3 {
-      margin: 2rem 0 .25rem;
-      font-size: 1.15rem;
-      line-height: 1.35;
+    h2::before {
+      content: "";
+      flex: none;
+      width: .8rem; height: .8rem;
+      border-radius: 4px;
+      transform: rotate(-8deg) translateY(-.05em);
+      background: var(--marker, var(--c1));
     }
+    #podstawy { --marker: var(--c1); }
+    #programowanie { --marker: var(--c2); }
+    #inf02, #inf03, #inf04 { --marker: var(--c3); }
+    #narzedziownik { --marker: var(--c4); }
+    h2.qual { flex-direction: column; align-items: flex-start; gap: .35rem; font-size: 1.3rem; }
+    h2.qual::before { display: none; }
     .code {
+      display: inline-block;
+      padding: .05rem .55rem;
+      border-radius: 6px;
+      background: var(--code-bg);
+      color: var(--yellow);
       font-family: var(--mono);
-      font-size: .85em;
-      font-weight: 600;
-      color: var(--accent);
-      margin-right: .4rem;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .02em;
     }
-    .lead { margin: 0 0 1rem; color: var(--muted); }
+    .lead { margin: 0 0 .9rem; color: var(--muted); }
 
-    /* Lista tematów */
-    .items { list-style: none; margin: 0; padding: 0; }
-    .items li {
-      padding: .8rem 0;
-      border-bottom: 1px solid var(--rule);
+    /* ---------- Listy tematów ---------- */
+    .items {
+      list-style: none;
+      margin: 0;
+      padding: .35rem;
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px solid var(--rule);
     }
-    .items li:last-child { border-bottom: 0; }
-    .items .title { font-weight: 700; }
+    .items li {
+      padding: .75rem 1rem;
+      border-radius: 10px;
+    }
+    .items li + li { border-top: 1px dashed var(--rule); }
+    .items li:has(a.title:hover) { background: var(--tag-bg); }
+    .items .title { font-weight: 800; }
+    .items a.title {
+      text-decoration: underline;
+      text-decoration-color: var(--yellow);
+      text-decoration-thickness: 3px;
+      text-underline-offset: .2em;
+    }
+    .items a.title::after { content: " →"; font-weight: 800; }
     .items p { margin: .15rem 0 0; color: var(--muted); font-size: 1rem; }
-    .items .planned .title { color: var(--ink); font-weight: 600; }
     .tag {
       display: inline-block;
-      margin-left: .4rem;
-      font-family: var(--mono);
-      font-size: .75rem;
-      color: var(--muted);
+      margin-left: .35rem;
+      padding: .05rem .55rem;
+      border-radius: 999px;
+      background: var(--tag-bg);
+      color: var(--tag-ink);
+      font-size: .78rem;
+      font-weight: 700;
       white-space: nowrap;
+      vertical-align: .1em;
     }
-    .start {
-      background: var(--mark);
-      color: var(--ink);
-      padding: 0 .3rem;
-      border-radius: 2px;
-    }
-    .soon-note { margin: .5rem 0 0; color: var(--muted); font-style: italic; font-size: 1rem; }
-
-    footer {
-      width: min(41.5rem, calc(100% - 2.5rem));
-      margin: 3.5rem auto 0;
-      padding: 1.25rem 0 2.5rem;
-      border-top: 1px solid var(--rule);
-      font-family: var(--mono);
-      font-size: .8rem;
+    .tag.start { background: var(--yellow); color: #14234b; }
+    .soon-note {
+      margin: .4rem 0 0;
+      padding: .8rem 1rem;
+      border: 1.5px dashed var(--rule);
+      border-radius: 14px;
       color: var(--muted);
+      font-size: 1rem;
     }
-    footer p { margin: 0; }
+
+    /* ---------- Stopka ---------- */
     footer {
+      margin-top: 3.5rem;
+      background: var(--navy);
+      color: var(--hero-muted);
+      font-size: .95rem;
+    }
+    footer .wrap {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: .75rem 1.5rem;
+      padding: 1.5rem 0 1.75rem;
     }
+    footer p { margin: 0; }
+    footer strong { color: var(--hero-ink); }
     footer img { display: block; }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <p class="site-name">BelferIT</p>
-      <h1>Materiały do nauki informatyki</h1>
+  <header class="hero">
+    <div class="wrap">
+      <p class="brand">
+        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#ffc94a"/><text x="16" y="23" font-family="Nunito, Arial, sans-serif" font-size="19" font-weight="900" text-anchor="middle" fill="#14234b">B</text></svg>
+        BelferIT
+      </p>
+      <h1>Materiały do nauki <span class="squiggle">informatyki</span></h1>
       <!-- Wstęp: napisz go własnymi słowami – to najważniejszy „ludzki” element strony. -->
       <p class="intro">Uczę informatyki w technikum. Odkładam tu materiały, z których korzystam na lekcjach: od bezpieczeństwa w sieci, przez pierwsze programy w Scratchu, po przygotowanie do egzaminów zawodowych. Część tematów jeszcze piszę, więc lista będzie rosła.</p>
       <!-- Zmieniaj datę przy każdej aktualizacji strony. -->
-      <p class="updated">Ostatnia aktualizacja: 17 listopada 2026</p>
-    </header>
+      <p class="updated">Ostatnia aktualizacja: 18 listopada 2026</p>
 
-    <nav class="toc" aria-label="Na tej stronie">
-      <ul>
-        <li><a href="#podstawy">Podstawy</a></li>
-        <li><a href="#programowanie">Nauka programowania</a></li>
-        <li><a href="#inf02">INF.02</a></li>
-        <li><a href="#inf03">INF.03</a></li>
-        <li><a href="#inf04">INF.04</a></li>
-        <li><a href="#narzedziownik">Narzędziownik</a></li>
-      </ul>
-    </nav>
+      <nav class="toc" aria-label="Na tej stronie">
+        <ul>
+          <li><a href="#podstawy">Podstawy</a></li>
+          <li><a href="#programowanie">Nauka programowania</a></li>
+          <li><a href="#inf02">INF.02</a></li>
+          <li><a href="#inf03">INF.03</a></li>
+          <li><a href="#inf04">INF.04</a></li>
+          <li><a href="#narzedziownik">Narzędziownik</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
+  <div class="wrap">
     <main>
       <!--
         Gotowy temat:
@@ -242,17 +333,17 @@
       <!-- Repozytorium do przedmiotu:
            <li><a class="title" href="https://github.com/…">Nazwa przedmiotu</a><p>Co jest w repozytorium.</p></li> -->
       <section id="inf02" aria-labelledby="h-inf02">
-        <h2 id="h-inf02"><span class="code">INF.02</span>Administracja i eksploatacja systemów komputerowych, urządzeń peryferyjnych i lokalnych sieci komputerowych</h2>
+        <h2 class="qual" id="h-inf02"><span class="code">INF.02</span><span class="h-text">Administracja i eksploatacja systemów komputerowych, urządzeń peryferyjnych i lokalnych sieci komputerowych</span></h2>
         <p class="soon-note">Repozytoria do przedmiotów jeszcze przygotowuję.</p>
       </section>
 
       <section id="inf03" aria-labelledby="h-inf03">
-        <h2 id="h-inf03"><span class="code">INF.03</span>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</h2>
+        <h2 class="qual" id="h-inf03"><span class="code">INF.03</span><span class="h-text">Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</span></h2>
         <p class="soon-note">Repozytoria do przedmiotów jeszcze przygotowuję.</p>
       </section>
 
       <section id="inf04" aria-labelledby="h-inf04">
-        <h2 id="h-inf04"><span class="code">INF.04</span>Projektowanie, programowanie i testowanie aplikacji</h2>
+        <h2 class="qual" id="h-inf04"><span class="code">INF.04</span><span class="h-text">Projektowanie, programowanie i testowanie aplikacji</span></h2>
         <ul class="items">
           <li>
             <a class="title" href="INF.04%20%E2%80%93%20checklista%20umiej%C4%99tno%C5%9Bci.html">Checklista umiejętności do egzaminu</a>
@@ -276,8 +367,10 @@
   </div>
 
   <footer>
-    <p>BelferIT · bez ciasteczek i śledzenia</p>
-    <a href="https://buycoffee.to/itteacher" target="_blank" rel="noopener"><img src="https://buycoffee.to/static/img/share/share-button-primary--pl.png" style="width: 97px; height: 25px" alt="Postaw kawę dla itteacher na buycoffee.to"></a>
+    <div class="wrap">
+      <p><strong>BelferIT</strong> · bez ciasteczek i śledzenia</p>
+      <a href="https://buycoffee.to/itteacher" target="_blank" rel="noopener"><img src="https://buycoffee.to/static/img/share/share-button-primary--pl.png" style="width: 97px; height: 25px" alt="Postaw kawę dla itteacher na buycoffee.to"></a>
+    </div>
   </footer>
 </body>
 </html>

@@ -37,5 +37,6 @@ Zaktualizuj datę w linijce „Ostatnia aktualizacja” na górze strony.
 - `index.html` – strona główna
 - `404.html` – strona wyświetlana przy błędnym adresie
 - `.nojekyll` – wyłącza przetwarzanie przez Jekylla (strona to czysty HTML)
+- `fonts/` – czcionka Nunito (licencja SIL OFL, plik `OFL-Nunito.txt`), trzymana lokalnie, żeby strona nie łączyła się z Google
 
 Autor: BelferIT
