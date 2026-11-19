@@ -61,14 +61,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4vh 0;
+      padding: 2.5vh 0;
     }
 
     .card {
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 28px;
-      padding: 6vh 6vw;
+      padding: 5vh 5.5vw;
       width: 100%;
       max-width: 86vw;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
@@ -81,32 +81,32 @@
     }
 
     .to-label {
-      font-size: 1.8vw;
+      font-size: 1.7vw;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--accent);
       font-weight: 700;
-      margin-bottom: 1.2vh;
+      margin-bottom: 1vh;
     }
 
     .to-name {
-      font-size: 3.4vw;
+      font-size: 3.2vw;
       font-weight: 800;
-      margin-bottom: 3.5vh;
+      margin-bottom: 3vh;
       color: #ffffff;
     }
 
     .message {
-      font-size: 3vw;
-      line-height: 1.4;
+      font-size: 2.8vw;
+      line-height: 1.38;
       font-weight: 400;
       color: #e2e8f0;
-      margin-bottom: 4.5vh;
+      margin-bottom: 3.5vh;
       word-wrap: break-word;
     }
 
     .from {
-      font-size: 2vw;
+      font-size: 1.9vw;
       color: var(--text-muted);
       text-align: right;
       font-style: italic;
@@ -114,8 +114,17 @@
 
     footer {
       display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3vw;
+    }
+
+    .footer-left {
+      flex: 1;
+      display: flex;
       flex-direction: column;
       gap: 1.5vh;
+      padding-bottom: 0.8vh;
     }
 
     .progress-track {
@@ -133,9 +142,46 @@
     }
 
     .hint {
-      text-align: center;
       font-size: 1.3vw;
       color: var(--text-muted);
+    }
+
+    .qr-box {
+      display: flex;
+      align-items: center;
+      gap: 1.2vw;
+      background: rgba(30, 41, 59, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 20px;
+      padding: 1.2vh 1.4vw 1.2vh 1.6vw;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .qr-text {
+      text-align: right;
+    }
+
+    .qr-title {
+      font-size: 1.35vw;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.3vh;
+    }
+
+    .qr-sub {
+      font-size: 1vw;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .qr-box img {
+      width: 13vh;
+      height: 13vh;
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 12px;
+      display: block;
     }
   </style>
 </head>
@@ -156,10 +202,23 @@
   </main>
 
   <footer>
-    <div class="progress-track">
-      <div class="progress-bar" id="progressBar"></div>
+    <div class="footer-left">
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="hint">Pozdrowienia pojawiają się automatycznie po krótkiej weryfikacji.</div>
     </div>
-    <div class="hint">Chcesz kogoś pozdrowić? Zeskanuj kod QR przy ekranie i wyślij wiadomość!</div>
+
+    <div class="qr-box">
+      <div class="qr-text">
+        <div class="qr-title">Wyślij pozdrowienia!</div>
+        <div class="qr-sub">Zeskanuj kod telefonem</div>
+      </div>
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=https%3A%2F%2Fforms.gle%2Fpwka5TxY2Wfh4DVW7"
+        alt="Kod QR do formularza pozdrowień"
+      />
+    </div>
   </footer>
 
   <script>
@@ -178,7 +237,6 @@
     const counterEl = document.getElementById("counter");
     const progressEl = document.getElementById("progressBar");
 
-    // Prosty parser CSV obsługujący cudzysłowy i przecinki wewnątrz tekstu
     function parseCSV(text) {
       const rows = [];
       let row = [];
@@ -224,7 +282,6 @@
 
     async function fetchGreetings() {
       try {
-        // Parametr t= omija pamięć podręczną przeglądarki w telewizorze
         const separator = CSV_URL.includes("?") ? "&" : "?";
         const response = await fetch(`${CSV_URL}${separator}t=${Date.now()}`);
         if (!response.ok) throw new Error("Błąd sieci");
@@ -240,7 +297,6 @@
           }));
 
         if (parsed.length > 0) {
-          // Najnowsze pozdrowienia na początku (odwrócona kolejność)
           greetings = parsed.reverse();
           if (currentIndex >= greetings.length) currentIndex = 0;
         }
@@ -252,7 +308,7 @@
     function animateProgress() {
       progressEl.style.transition = "none";
       progressEl.style.width = "0%";
-      void progressEl.offsetWidth; // wymuszenie reflow
+      void progressEl.offsetWidth;
       progressEl.style.transition = `width ${SLIDE_DURATION_MS}ms linear`;
       progressEl.style.width = "100%";
     }
