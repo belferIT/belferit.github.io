@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dzień Pozdrowień</title>
+  <style>
+    :root {
+      --bg-1: #0f172a;
+      --bg-2: #1e293b;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top right, #1e1b4b, var(--bg-1) 60%);
+      color: var(--text-main);
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3.5vh 5vw;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 2vh;
+    }
+
+    header h1 {
+      font-size: 3.2vw;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .counter {
+      font-size: 1.6vw;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.8vh 1.6vw;
+      border-radius: 999px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4vh 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      padding: 6vh 6vw;
+      width: 100%;
+      max-width: 86vw;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .card.fade-out {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .to-label {
+      font-size: 1.8vw;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 1.2vh;
+    }
+
+    .to-name {
+      font-size: 3.4vw;
+      font-weight: 800;
+      margin-bottom: 3.5vh;
+      color: #ffffff;
+    }
+
+    .message {
+      font-size: 3vw;
+      line-height: 1.4;
+      font-weight: 400;
+      color: #e2e8f0;
+      margin-bottom: 4.5vh;
+      word-wrap: break-word;
+    }
+
+    .from {
+      font-size: 2vw;
+      color: var(--text-muted);
+      text-align: right;
+      font-style: italic;
+    }
+
+    footer {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .hint {
+      text-align: center;
+      font-size: 1.3vw;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Szkolny Dzień Pozdrowień</h1>
+    <div class="counter" id="counter">Ładowanie...</div>
+  </header>
+
+  <main>
+    <div class="card" id="card">
+      <div class="to-label">Pozdrowienia dla:</div>
+      <div class="to-name" id="toName">...</div>
+      <div class="message" id="messageText">Czekamy na pierwsze zatwierdzone pozdrowienia!</div>
+      <div class="from" id="fromName"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="hint">Chcesz kogoś pozdrowić? Zeskanuj kod QR przy ekranie i wyślij wiadomość!</div>
+  </footer>
+
+  <script>
+    // === KONFIGURACJA ===
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtjNe1-67N7anihkn8LAwamOU89ov_xLGHI34n3QD55rx8ntu61m7L_5Id49wbV2d9Ag-TLRLAL0P1/pub?gid=340458116&single=true&output=csv";
+    const SLIDE_DURATION_MS = 8000;   // Czas wyświetlania 1 pozdrowienia (8 sek.)
+    const REFRESH_DATA_MS = 60000;    // Co ile pobierać nowe dane z arkusza (60 sek.)
+
+    let greetings = [];
+    let currentIndex = 0;
+
+    const cardEl = document.getElementById("card");
+    const toEl = document.getElementById("toName");
+    const msgEl = document.getElementById("messageText");
+    const fromEl = document.getElementById("fromName");
+    const counterEl = document.getElementById("counter");
+    const progressEl = document.getElementById("progressBar");
+
+    // Prosty parser CSV obsługujący cudzysłowy i przecinki wewnątrz tekstu
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (inQuotes) {
+          if (char === '"' && next === '"') {
+            cell += '"';
+            i++;
+          } else if (char === '"') {
+            inQuotes = false;
+          } else {
+            cell += char;
+          }
+        } else {
+          if (char === '"') {
+            inQuotes = true;
+          } else if (char === ',') {
+            row.push(cell.trim());
+            cell = "";
+          } else if (char === '\n' || (char === '\r' && next === '\n')) {
+            row.push(cell.trim());
+            if (row.some(c => c.length > 0)) rows.push(row);
+            row = [];
+            cell = "";
+            if (char === '\r') i++;
+          } else {
+            cell += char;
+          }
+        }
+      }
+      if (cell.length > 0 || row.length > 0) {
+        row.push(cell.trim());
+        if (row.some(c => c.length > 0)) rows.push(row);
+      }
+      return rows;
+    }
+
+    async function fetchGreetings() {
+      try {
+        // Parametr t= omija pamięć podręczną przeglądarki w telewizorze
+        const separator = CSV_URL.includes("?") ? "&" : "?";
+        const response = await fetch(`${CSV_URL}${separator}t=${Date.now()}`);
+        if (!response.ok) throw new Error("Błąd sieci");
+        const csvText = await response.text();
+        const rows = parseCSV(csvText);
+
+        const parsed = rows
+          .filter(r => r.length >= 2 && r[0] && r[1])
+          .map(r => ({
+            to: r[0],
+            message: r[1],
+            from: r[2] || "Anonim"
+          }));
+
+        if (parsed.length > 0) {
+          // Najnowsze pozdrowienia na początku (odwrócona kolejność)
+          greetings = parsed.reverse();
+          if (currentIndex >= greetings.length) currentIndex = 0;
+        }
+      } catch (err) {
+        console.error("Nie udało się pobrać pozdrowień:", err);
+      }
+    }
+
+    function animateProgress() {
+      progressEl.style.transition = "none";
+      progressEl.style.width = "0%";
+      void progressEl.offsetWidth; // wymuszenie reflow
+      progressEl.style.transition = `width ${SLIDE_DURATION_MS}ms linear`;
+      progressEl.style.width = "100%";
+    }
+
+    function showNextGreeting() {
+      if (greetings.length === 0) {
+        counterEl.textContent = "0 pozdrowień";
+        return;
+      }
+
+      cardEl.classList.add("fade-out");
+
+      setTimeout(() => {
+        const item = greetings[currentIndex];
+        toEl.textContent = item.to;
+        msgEl.textContent = `„${item.message}”`;
+        fromEl.textContent = `— ${item.from}`;
+        counterEl.textContent = `${currentIndex + 1} / ${greetings.length}`;
+
+        cardEl.classList.remove("fade-out");
+        animateProgress();
+
+        currentIndex = (currentIndex + 1) % greetings.length;
+      }, 500);
+    }
+
+    async function init() {
+      await fetchGreetings();
+      showNextGreeting();
+      setInterval(showNextGreeting, SLIDE_DURATION_MS);
+      setInterval(fetchGreetings, REFRESH_DATA_MS);
+    }
+
+    init();
+  </script>
+</body>
+</html>
